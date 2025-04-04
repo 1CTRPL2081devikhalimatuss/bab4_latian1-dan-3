@@ -1,0 +1,64 @@
+class SearchResult {
+  final int? index;
+  final int comparisons;
+
+  SearchResult({this.index, required this.comparisons});
+}
+
+SearchResult sequentialSearchWithComparisons(List data, dynamic target) {
+  int comparisons = 0;
+  for (int i = 0; i < data.length; i++) {
+    comparisons++;
+    if (data[i] == target) {
+      return SearchResult(index: i, comparisons: comparisons);
+    }
+  }
+  return SearchResult(index: null, comparisons: comparisons);
+}
+
+SearchResult binarySearchWithComparisons(List data, dynamic target) {
+  int low = 0;
+  int high = data.length - 1;
+  int comparisons = 0;
+
+  while (low <= high) {
+    comparisons++;
+    int mid = (low + high) ~/ 2; // Gunakan ~/ untuk pembagian integer
+    if (data[mid] == target) {
+      return SearchResult(index: mid, comparisons: comparisons);
+    } else if (data[mid].compareTo(target) < 0) {
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+  return SearchResult(index: null, comparisons: comparisons);
+}
+
+void main() {
+  List sequentialData = [5, 2, 8, 1, 9, 4, 7, 3, 6];
+  dynamic sequentialTarget = 9;
+  SearchResult sequentialResult = sequentialSearchWithComparisons(sequentialData, sequentialTarget);
+
+  print("Sequential Search:");
+  if (sequentialResult.index != null) {
+    print("  Elemen $sequentialTarget ditemukan pada indeks: ${sequentialResult.index}");
+  } else {
+    print("  Elemen $sequentialTarget tidak ditemukan.");
+  }
+  print("  Jumlah perbandingan: ${sequentialResult.comparisons}");
+  print("-" * 30);
+
+  List binaryData = [5, 2, 8, 1, 9, 4, 7, 3, 6];
+  binaryData.sort(); // Data harus terurut untuk binary search
+  dynamic binaryTarget = 4;
+  SearchResult binaryResult = binarySearchWithComparisons(binaryData, binaryTarget);
+
+  print("Binary Search:");
+  if (binaryResult.index != null) {
+    print("  Elemen $binaryTarget ditemukan pada indeks: ${binaryResult.index}");
+  } else {
+    print("  Elemen $binaryTarget tidak ditemukan.");
+  }
+  print("  Jumlah perbandingan: ${binaryResult.comparisons}");
+}
