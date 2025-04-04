@@ -1,0 +1,32 @@
+void sequentialSearchAll(List data, dynamic keyword) {
+  List<int> indices = [];
+  int comparisons = 0;
+
+  print("Mencari kata kunci: $keyword");
+
+  for (int i = 0; i < data.length; i++) {
+    comparisons++;
+    if (data[i] == keyword) {
+      indices.add(i);
+      print("Data ditemukan pada indeks: $i, nilai: ${data[i]}");
+    }
+  }
+
+  print("\nJumlah total perbandingan: $comparisons");
+
+  if (indices.isEmpty) {
+    print("Kata kunci '$keyword' tidak ditemukan dalam data.");
+  } else {
+    print("\nTotal data ditemukan: ${indices.length}");
+  }
+}
+
+void main() {
+  List<int> data = [10, 5, 8, 3, 5, 12, 7, 5, 15];
+  int kataKunci = 5;
+
+  sequentialSearchAll(data, kataKunci);
+
+  print("\n--- Contoh dengan kata kunci tidak ditemukan ---");
+  sequentialSearchAll(data, 20);
+}
