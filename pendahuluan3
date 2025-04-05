@@ -1,0 +1,78 @@
+class Pegawai {
+  int nip;
+  String nama;
+  String alamat;
+  String golongan;
+
+  Pegawai({
+    required this.nip,
+    required this.nama,
+    required this.alamat,
+    required this.golongan,
+  });
+}
+
+Pegawai? sequentialSearch(List<Pegawai> data, dynamic key) {
+  for (var pegawai in data) {
+    if (pegawai.nip == key || pegawai.nama.toLowerCase() == key.toString().toLowerCase()) {
+      return pegawai;
+    }
+  }
+  return null;
+}
+
+Pegawai? binarySearchByNIP(List<Pegawai> data, int key) {
+  int low = 0;
+  int high = data.length - 1;
+
+  while (low <= high) {
+    int mid = (low + high) ~/ 2;
+    if (data[mid].nip == key) {
+      return data[mid];
+    } else if (key < data[mid].nip) {
+      high = mid - 1;
+    } else {
+      low = mid + 1;
+    }
+  }
+
+  return null;
+}
+
+Pegawai? binarySearchByNama(List<Pegawai> data, String key) {
+  int low = 0;
+  int high = data.length - 1;
+
+  while (low <= high) {
+    int mid = (low + high) ~/ 2;
+    int comparison = data[mid].nama.toLowerCase().compareTo(key.toLowerCase());
+    if (comparison == 0) {
+      return data[mid];
+    } else if (comparison > 0) {
+      high = mid - 1;
+    } else {
+      low = mid + 1;
+    }
+  }
+
+  return null;
+}
+
+
+void main() {
+  List<Pegawai> daftarPegawai = [
+    Pegawai(nip: 101, nama: "Ali", alamat: "Jakarta", golongan: "A"),
+    Pegawai(nip: 102, nama: "Devi", alamat: "Bandung", golongan: "B"),
+    Pegawai(nip: 103, nama: "Rossy", alamat: "Surabaya", golongan: "C"),
+  ];
+
+  // Untuk binary search, data harus diurutkan
+  daftarPegawai.sort((a, b) => a.nip.compareTo(b.nip));
+
+  var hasil = binarySearchByNIP(daftarPegawai, 102);
+  if (hasil != null) {
+    print("Ditemukan: ${hasil.nama}, NIP: ${hasil.nip}");
+  } else {
+    print("Data tidak ditemukan");
+  }
+}
